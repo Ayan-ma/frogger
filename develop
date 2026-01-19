@@ -4,7 +4,11 @@ def frog class(self):
 	frog=transform.scale(frog,(40,40))
 	screen.blit(frog,(400,500))
 
-
+def map(self):
+	draw.rect(screen,(0,255,0),(0,500,800,100))
+	draw.rect(screen,(100,100,100),(0,300,800,200))
+	draw.rect(screen(0,0,255),(0,0,800,300))
+	
 
 
 
@@ -19,6 +23,7 @@ while running:
 		if e.type==QUIT:
 			running=False
 	screen.fill((0,0,0))
+	map.draw(screen)
 	froggy.draw(screen)
 	display.update()
 	clock.tick(60)
