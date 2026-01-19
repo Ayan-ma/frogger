@@ -19,6 +19,6 @@ while running:
 		if e.type==QUIT:
 			running=False
 	screen.fill((0,0,0))
-	
+	froggy.draw(screen)
 	display.update()
 	clock.tick(60)
