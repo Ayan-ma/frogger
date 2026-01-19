@@ -1,1 +1,24 @@
-priit("hello")
+from pygame import *
+def frog class(self):
+	frog=image.load("frog.png")
+	frog=transform.scale(frog,(40,40))
+	screen.blit(frog,(400,500))
+
+
+
+
+
+
+init()
+screen=display.set_mode((800,600))
+clock=time.clock()
+running=True
+froggy=frog(self)
+while running:
+	for e in event.get():
+		if e.type==QUIT:
+			running=False
+	screen.fill((0,0,0))
+	
+	display.update()
+	clock.tick(60)
