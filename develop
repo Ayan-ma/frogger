@@ -3,7 +3,7 @@ frog class(self):
 	def spawn():
 		frog=image.load("frog.png")
 		frog=transform.scale(frog,(40,40))
-	def draw():
+	def draw(self,screen):
 	screen.blit(frog,(400,500))
 
 def Gmap(self):
@@ -11,19 +11,23 @@ def Gmap(self):
 	draw.rect(screen,(100,100,100),(0,300,800,200))
 	draw.rect(screen,(0,0,255),(0,0,800,300))
 	
-class logs():
+class logs(x,y):
 	def createlog():
 		logsprite=image.load("log.png")
 		logsprite=transform.scale(logsprite,(25,25))
-	def draw():
-		screen.blit(self,(800,300)
+	def draw(self,screen):
+		screen.blit(self,(x,y)
 
 
-logcord=[]
-x=400
-while x<=800:
-	y=100
-	while y<=300:
+log_list = []
+y = 100
+while y <= 300:
+    x = 0
+    while x <= 600:
+        p = logs(x,y)   #creates the object
+        log_list.append(p) # adds the object to the list
+        x = x + 200
+    y = y + 100
 		
 
 init()
