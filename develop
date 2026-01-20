@@ -1,29 +1,43 @@
 from pygame import *
-def frog class(self):
-	frog=image.load("frog.png")
-	frog=transform.scale(frog,(40,40))
+frog class(self):
+	def spawn():
+		frog=image.load("frog.png")
+		frog=transform.scale(frog,(40,40))
+	def draw():
 	screen.blit(frog,(400,500))
 
-def map(self):
+def Gmap(self):
 	draw.rect(screen,(0,255,0),(0,500,800,100))
 	draw.rect(screen,(100,100,100),(0,300,800,200))
-	draw.rect(screen(0,0,255),(0,0,800,300))
+	draw.rect(screen,(0,0,255),(0,0,800,300))
 	
+class logs():
+	def createlog():
+		logsprite=image.load("log.png")
+		logsprite=transform.scale(logsprite,(25,25))
+	def draw():
+		screen.blit(self,(800,300)
 
 
-
+logcord=[]
+x=400
+while x<=800:
+	y=100
+	while y<=300:
+		
 
 init()
 screen=display.set_mode((800,600))
 clock=time.clock()
 running=True
-froggy=frog(self)
+froggy=frog()
+drawingboard=G.map()
 while running:
 	for e in event.get():
 		if e.type==QUIT:
 			running=False
 	screen.fill((0,0,0))
-	map.draw(screen)
+	drawingboard.draw(screen)
 	froggy.draw(screen)
 	display.update()
 	clock.tick(60)
