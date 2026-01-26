@@ -1,24 +1,40 @@
 from pygame import *
-frog class(self):
+class frog ():
 	def spawn():
 		frog=image.load("frog.png")
 		frog=transform.scale(frog,(40,40))
 	def draw(self,screen):
-	screen.blit(frog,(400,500))
+		screen.blit(frog,(400,500))
 
-def Gmap(self):
+def Gmap(screen):
 	draw.rect(screen,(0,255,0),(0,500,800,100))
 	draw.rect(screen,(100,100,100),(0,300,800,200))
 	draw.rect(screen,(0,0,255),(0,0,800,300))
 	
-class logs(self,x,y):
-	def createlog():
-		logsprite=image.load("log.png")
-		logsprite=transform.scale(logsprite,(25,25))
-		self.rect = Rect(x,y,logsprite.get_width(), logsprite.get_height())
+class logs():
+	def update(self):
+		def __init__(self,x,y):
+			logsprite=image.load("log.png")
+			logsprite=transform.scale(logsprite,(25,25))
+			self.rect = Rect(x,y,logsprite.get_width(), logsprite.get_height())
 	def draw(self,screen):
-		screen.blit(self,(x,y)
-
+		screen.blit(self.logsprite,(x,y))
+class car():
+		def __init__(self,x,y):
+			cars=image.load("car.png")
+			cars=transform.scale(car,(40,80))
+			self.rect = Rect(x,y,car.get_width(), car.get_height())
+		def draw(self,screen):
+			screen.blit(self.cars,(x,y))
+car_list = []
+y = 50
+while y <= 200:
+		x = 0
+		while x <= 800:
+				c = car(x,y)   #creates the object
+				car_list.append(c) # adds the object to the list
+				x = x +100
+		y = y + 50
 
 log_list = []
 y = 100
@@ -33,19 +49,32 @@ while y <= 300:
 
 init()
 screen=display.set_mode((800,600))
-clock=time.clock()
+clock=time.Clock()
 running=True
 froggy=frog()
-drawingboard=G.map()
+drawingboard=Gmap(screen)
 while running:
 	for e in event.get():
 		if e.type==QUIT:
 			running=False
-	 for i in log_list: # Loops through the list and draws each one of the objects
-        i.update()
-        i.draw(screen)
+		
+			if e.type == KEYDOWN:
+				if e.key == K_UP:
+						self.y += 40
+				if e.key == K_DOWN:
+						self.y -= 40
+				if e.key == K_LEFT:
+						self.x -= 40
+				if e.key == K_RIGHT:
+						self.x += 40
+
+			
+	for i in log_list: # Loops through the list and draws each one of the objects
+	 i.update()
+	 i.draw(screen)
 	screen.fill((0,0,0))
 	drawingboard.draw(screen)
 	froggy.draw(screen)
 	display.update()
 	clock.tick(60)
+
