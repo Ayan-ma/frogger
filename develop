@@ -1,80 +1,107 @@
 from pygame import *
-class frog ():
-	def spawn():
-		frog=image.load("frog.png")
-		frog=transform.scale(frog,(40,40))
-	def draw(self,screen):
-		screen.blit(frog,(400,500))
+
+class frog:
+    def __init__(self):
+        self.image = image.load("frog.png")
+        self.image = transform.scale(self.image, (40, 40))
+        self.x = 400
+        self.y = 500
+        self.rect=self.image.get_rect()
+        
+    def draw(self, screen):
+        self.rect.topleft=(self.x,self.y)
+        screen.blit(self.image, (self.x, self.y))
 
 def Gmap(screen):
-	draw.rect(screen,(0,255,0),(0,500,800,100))
-	draw.rect(screen,(100,100,100),(0,300,800,200))
-	draw.rect(screen,(0,0,255),(0,0,800,300))
-	
-class logs():
-	def update(self):
-		def __init__(self,x,y):
-			logsprite=image.load("log.png")
-			logsprite=transform.scale(logsprite,(25,25))
-			self.rect = Rect(x,y,logsprite.get_width(), logsprite.get_height())
-	def draw(self,screen):
-		screen.blit(self.logsprite,(x,y))
-class car():
-		def __init__(self,x,y):
-			cars=image.load("car.png")
-			cars=transform.scale(car,(40,80))
-			self.rect = Rect(x,y,car.get_width(), car.get_height())
-		def draw(self,screen):
-			screen.blit(self.cars,(x,y))
-car_list = []
-y = 50
-while y <= 200:
-		x = 0
-		while x <= 800:
-				c = car(x,y)   #creates the object
-				car_list.append(c) # adds the object to the list
-				x = x +100
-		y = y + 50
+    # Water (Top)
+    draw.rect(screen, (0, 0, 255), (0, 0, 800, 300))
+    # Road (Middle)
+    draw.rect(screen, (100, 100, 100), (0, 300, 800, 200))
+    # Grass (Bottom)
+    draw.rect(screen, (0, 255, 0), (0, 500, 800, 100))
 
-log_list = []
-y = 100
-while y <= 300:
-    x = 0
-    while x <= 600:
-        p = logs(x,y)   #creates the object
-        log_list.append(p) # adds the object to the list
-        x = x + 200
-    y = y + 100
-		
+class logs:
+    def __init__(self, x, y):
+        self.logsprite = image.load("log.png")
+        self.logsprite = transform.scale(self.logsprite, (100, 40))
+        self.x = x
+        self.y = y
+        self.rect = Rect(x, y, 100, 40)
+        
+    def update(self):
+        self.x += 2
+        if self.x > 800:
+            self.x = -100
+        self.rect.x = self.x
+        
+    def draw(self, screen):
+        screen.blit(self.logsprite, (self.x, self.y))
+
+class car:
+    def __init__(self, x, y):
+        self.carsprite = image.load("car.png")
+        self.carsprite = transform.scale(self.carsprite, (60, 40))
+        self.x = x
+        self.y = y
+        self.rect = Rect(x, y, 60, 40)
+       
+        
+    def update(self):
+        self.x -= 3
+        if self.x < -100:
+            self.x = 800
+        self.rect.x = self.x
+        
+    def draw(self, screen):
+        screen.blit(self.carsprite, (self.x, self.y))
 
 init()
-screen=display.set_mode((800,600))
-clock=time.Clock()
-running=True
-froggy=frog()
-drawingboard=Gmap(screen)
-while running:
-	for e in event.get():
-		if e.type==QUIT:
-			running=False
-		
-			if e.type == KEYDOWN:
-				if e.key == K_UP:
-						self.y += 40
-				if e.key == K_DOWN:
-						self.y -= 40
-				if e.key == K_LEFT:
-						self.x -= 40
-				if e.key == K_RIGHT:
-						self.x += 40
+screen = display.set_mode((800, 600))
+clock = time.Clock()
+running = True
+froggy = frog()
 
-			
-	for i in log_list: # Loops through the list and draws each one of the objects
-	 i.update()
-	 i.draw(screen)
-	screen.fill((0,0,0))
-	drawingboard.draw(screen)
-	froggy.draw(screen)
-	display.update()
-	clock.tick(60)
+car_list = []
+for row_y in range(350, 500, 50):
+    for start_x in range(0, 800, 250):
+        car_list.append(car(start_x, row_y))
+
+log_list = []
+for row_y in range(50, 300, 100):
+    for start_x in range(0, 800, 300):
+        log_list.append(logs(start_x, row_y))
+
+
+while running:
+    for e in event.get():
+        if e.type == QUIT:
+            running = False
+        if e.type == KEYDOWN:
+            if e.key == K_UP:
+                froggy.y -= 40
+            if e.key == K_DOWN:
+                froggy.y += 40
+            if e.key == K_LEFT:
+                froggy.x -= 40
+            if e.key == K_RIGHT:
+                froggy.x += 40
+
+    screen.fill((0, 0, 0))
+    Gmap(screen)
+    
+    for l in log_list:
+        l.update()
+        l.draw(screen)
+        
+    for c in car_list:
+        c.update()
+        c.draw(screen)
+        if frog_rect.colliderect(car_rect):
+            print("Game Over")
+
+    froggy.draw(screen)
+    display.update()
+    clock.tick(60)
+
+quit()
 
