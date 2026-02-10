@@ -11,13 +11,11 @@ class frog:
     def draw(self, screen):
         self.rect.topleft=(self.x,self.y)
         screen.blit(self.image, (self.x, self.y))
-
+  
 def Gmap(screen):
-    # Water (Top)
+    
     draw.rect(screen, (0, 0, 255), (0, 0, 800, 300))
-    # Road (Middle)
     draw.rect(screen, (100, 100, 100), (0, 300, 800, 200))
-    # Grass (Bottom)
     draw.rect(screen, (0, 255, 0), (0, 500, 800, 100))
 
 class logs:
@@ -26,12 +24,12 @@ class logs:
         self.logsprite = transform.scale(self.logsprite, (100, 40))
         self.x = x
         self.y = y
-        self.rect = Rect(x, y, 100, 40)
+        self.rect = Rect(x, y, 100, 75)
         
     def update(self):
-        self.x += 2
+        self.x += 1
         if self.x > 800:
-            self.x = -100
+            self.x = -1
         self.rect.x = self.x
         
     def draw(self, screen):
@@ -47,7 +45,7 @@ class car:
        
         
     def update(self):
-        self.x -= 3
+        self.x -= 2
         if self.x < -100:
             self.x = 800
         self.rect.x = self.x
@@ -70,8 +68,8 @@ log_list = []
 for row_y in range(50, 300, 100):
     for start_x in range(0, 800, 300):
         log_list.append(logs(start_x, row_y))
-
-
+lives=3
+score=0
 while running:
     for e in event.get():
         if e.type == QUIT:
@@ -85,23 +83,55 @@ while running:
                 froggy.x -= 40
             if e.key == K_RIGHT:
                 froggy.x += 40
-
+            if e.key==pygame.K_c:
+                running=False 
+    
+    on_log=False
+    for l in log_list:
+        if froggy.rect.colliderect(l.rect):
+            on_log=True
+    if on_log==True and froggy.y>300:
+       froggy.x=start_x
+    if froggy.y<300 and on_log==False:
+        froggy.x=400
+        froggy.y=500
+        
+    
+ 
     screen.fill((0, 0, 0))
     Gmap(screen)
+    
+    
     
     for l in log_list:
         l.update()
         l.draw(screen)
-        
+
     for c in car_list:
         c.update()
         c.draw(screen)
-        if frog_rect.colliderect(car_rect):
-            print("Game Over")
-
+        if froggy.rect.colliderect(c.rect):
+            froggy.x=400
+            froggy.y=500
+            lives=lives-1
+    if froggy.y<100:
+        score=score+10
+        froggy.x=400
+        froggy.y=500
+        
+    if lives<0:
+        print("Game over")
+        running=False       
+    if froggy.y<100:
+    
+        print("YOU WIN")
+    f=font.SysFont("Arial",30)
+    score_text=f.render("score:"+str(score),True,(255,255,255))
+    lives_text=f.render("lives:"+str(lives),True,(255,255,255))
+    screen.blit(score_text,(10,10))
+    screen.blit(lives_text,(10,50))
     froggy.draw(screen)
     display.update()
     clock.tick(60)
 
 quit()
-
