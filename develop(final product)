@@ -1,137 +1,176 @@
 from pygame import *
+from random import *
+class GUI:# creates class for  user interface for uno match
+	def __init__(self):#contructs screen
+		bg_colour=(200,0,0)#colour of back ground
+		self.screen=display.set_mode((1000,500))#determines the dimensions of window
+		self.screen.fill(bg_colour)#flls background with red
+		display.set_caption("UNO!")#writes the title of the window
+		draw.rect(self.screen,(0,0,0),(0,100,1000,10))
+		draw.rect(self.screen,(0,0,0),(0,400,1000,10))#draw the two black lines seperating player hands from the main section
+		self.deck=["w_#1.png"]
+		self.player_hand=[]
+		self.ai_hand=[]
+		self.pile=["w_#3.png"]
+		
+	def check_W(self,aihand,playerhand):
+		if len(playerhand)==0:
+				w=self.results_tab(True)
+		elif len(aihand)==0:
+			w=self.results_tab(False)#results tab hasnt been created yet but the boolean will termine wether it displays that the player has won or the ai has won
+			
+	def results_tab(self,playerwin):
+		if playerwin==True:
+			draw.rect(self.screen,(100,100,100),(250,125,500,250))
+			img=image.load("you-win.jpg")
+			self.screen.blit(img,(250,125))
+		else:
+			draw.rect(self.screen,(100,100,100),(250,125,500,250))
+			img=image.load("you-lose.jpg")
+			self.screen.blit(img,(250,125))
+			
+	def determinegamestate(self,turncount):
+		gamestate= turncount%2
+		if gamestate==0:
+			self.turn= "player"
+			return self.turn
+		elif gamestate==1:
+			self.turn="ai"
+			return self.turn
+#/--------------------THIS SECTION IS FOR THE DECK ESSENTIAL FEATURE--------------------/	
+	def deckempty(self):
+		self.empty=False
+		if len(self.deck)==0:
+			self.empty=True
+			return self.empty
+		else:
+			self.empty=False
+			return self.empty
+	def drawcard(self):
+		limit=len(self.deck)-1
+		if self.deckempty():
+			self.reshuffle()
+		else:
+			if self.turn=="player":
+				card=randint(0,limit)
+				temp=self.deck[card]
+				self.deck.pop(card)
+				self.player_hand.append(temp)
+			elif self.turn=="ai":
+				card=randint(0,limit)
+				temp=self.deck[card]
+				self.deck.pop(card)
+				self.ai_hand.append(temp)
+	def reshuffle(self):
+		if self.deckempty():
+			lastcard=self.pile[len(self.pile)-1]
+			while self.pile[0]!=lastcard:
+				temp=self.pile[0]
+				self.pile.pop(0)
+				self.deck.append(temp)
+	def setupcards(self):
+		#set pile
+		limit=len(self.deck)-1
+		randomcard=randint(0,limit)
+		temp=self.deck[randomcard]
+		self.deck.pop(randomcard)
+		self.pile.append(temp)
+		#set playerhand
+		count=0
+		while count !=7:
+			limit=len(self.deck)-1
+			randomcard=randint(0,limit)
+			temp=self.deck[randomcard]
+			self.deck.pop(randomcard)
+			self.player_hand.append(temp)
+			count+=1
+			
+		#set ai hand
+		count=0
+		while count !=7:
+			limit=len(self.deck)-1
+			randomcard=randint(0,limit)
+			temp=self.deck[randomcard]
+			self.deck.pop(randomcard)
+			self.ai_hand.append(temp)
+			count+=1
+		
+		
+				
+	def gethand(self):
+		return self.player_hand
+#-------------------------THIS SECTION IS FOR PLACED DOWN PILE ESSENTIAL FEATURE----------------------------/
+	def placecard(self):
+		toplocation=len(self.pile)-1
+		topcard=self.pile[toplocation]
+		self.colour=topcard[0]
+		if colour==chosencard[0] or topcard[1:3]==chosencard[1:3]  or topcard[1]==chosencard[1] or colour=="w" :
+			if self.determinegamestate()=="player": 
+				temp=self.player_hand[chosencard]
+				location=self.player_hand.index(chosencard)
+				self.player_hand.pop(location)
+				self.pile.append(temp)
+				turncount+=1
+				self.determineeffect(chosencard)
+			elif self.determinegamestate()=="ai":
+				temp=self.ai_hand[chosencard]
+				location=self.ai_hand.index(chosencard)
+				self.ai_hand.pop(location)
+				self.pile.append(temp)
+				turncount+=1
+				self.determineeffect(chosencard,self.colour)
+#-------------------------THIS SECTION IS FOR CARD EFFECTS ESSENTIAL FEATURE-------------------------------/
+def determineeffect(self,card):
+	if card[1]=="r" or card[1]=="b":
+		turncount+=1
+	elif card[1:3]=="+2":
+		for x in range(2):
+			self.drawcard()
+	elif card[1:3]=="+4":
+		for x in range(4):
+			self.drawcard()
+	elif card[0]=="w":
+		choose==True
+		while choose:
+			for e in event.get():
+				if e.key==K_g:
+					self.colour="g"
+					choose=False
+				elif e.key==K_y:
+					self.colour="y"
+				elif e.key==K_r:
+					self.colour="r"
+					choose==False
+				elif e.key==K_b:
+					self.colour="b"
+					choose=False 
+#------------------------THIS SECTION IS FOR AI ESSNETIAL FEATURE----------------------------------------/
+	
+					
 
-class frog:
-    def __init__(self):
-        self.image = image.load("frog.png")
-        self.image = transform.scale(self.image, (40, 40))
-        self.x = 400
-        self.y = 500
-        self.rect=self.image.get_rect()
-        
-    def draw(self, screen):
-        self.rect.topleft=(self.x,self.y)
-        screen.blit(self.image, (self.x, self.y))
-  
-def Gmap(screen):
-    
-    draw.rect(screen, (0, 0, 255), (0, 0, 800, 300))
-    draw.rect(screen, (100, 100, 100), (0, 300, 800, 200))
-    draw.rect(screen, (0, 255, 0), (0, 500, 800, 100))
+			
+		
+	
+		
+		
+		
+		
+	
 
-class logs:
-    def __init__(self, x, y):
-        self.logsprite = image.load("log.png")
-        self.logsprite = transform.scale(self.logsprite, (100, 40))
-        self.x = x
-        self.y = y
-        self.rect = Rect(x, y, 100, 75)
-        
-    def update(self):
-        self.x += 1
-        if self.x > 800:
-            self.x = -1
-        self.rect.x = self.x
-        
-    def draw(self, screen):
-        screen.blit(self.logsprite, (self.x, self.y))
-
-class car:
-    def __init__(self, x, y):
-        self.carsprite = image.load("car.png")
-        self.carsprite = transform.scale(self.carsprite, (60, 40))
-        self.x = x
-        self.y = y
-        self.rect = Rect(x, y, 60, 40)
-       
-        
-    def update(self):
-        self.x -= 2
-        if self.x < -100:
-            self.x = 800
-        self.rect.x = self.x
-        
-    def draw(self, screen):
-        screen.blit(self.carsprite, (self.x, self.y))
-
-init()
-screen = display.set_mode((800, 600))
-clock = time.Clock()
-running = True
-froggy = frog()
-
-car_list = []
-for row_y in range(350, 500, 50):
-    for start_x in range(0, 800, 250):
-        car_list.append(car(start_x, row_y))
-
-log_list = []
-for row_y in range(50, 300, 100):
-    for start_x in range(0, 800, 300):
-        log_list.append(logs(start_x, row_y))
-lives=3
-score=0
-while running:
-    for e in event.get():
-        if e.type == QUIT:
-            running = False
-        if e.type == KEYDOWN:
-            if e.key == K_UP:
-                froggy.y -= 40
-            if e.key == K_DOWN:
-                froggy.y += 40
-            if e.key == K_LEFT:
-                froggy.x -= 40
-            if e.key == K_RIGHT:
-                froggy.x += 40
-            if e.key==pygame.K_c:
-                running=False 
-    
-    on_log=False
-    for l in log_list:
-        if froggy.rect.colliderect(l.rect):
-            on_log=True
-    if on_log==True and froggy.y>300:
-       froggy.x=start_x
-    if froggy.y<300 and on_log==False:
-        froggy.x=400
-        froggy.y=500
-        
-    
- 
-    screen.fill((0, 0, 0))
-    Gmap(screen)
-    
-    
-    
-    for l in log_list:
-        l.update()
-        l.draw(screen)
-
-    for c in car_list:
-        c.update()
-        c.draw(screen)
-        if froggy.rect.colliderect(c.rect):
-            froggy.x=400
-            froggy.y=500
-            lives=lives-1
-    if froggy.y<100:
-        score=score+10
-        froggy.x=400
-        froggy.y=500
-        
-    if lives<0:
-        print("Game over")
-        running=False       
-    if froggy.y<100:
-    
-        print("YOU WIN")
-    f=font.SysFont("Arial",30)
-    score_text=f.render("score:"+str(score),True,(255,255,255))
-    lives_text=f.render("lives:"+str(lives),True,(255,255,255))
-    screen.blit(score_text,(10,10))
-    screen.blit(lives_text,(10,50))
-    froggy.draw(screen)
-    display.update()
-    clock.tick(60)
-
-quit()
+		
+player_hand=[0,1]
+ai_hand=[]		
+		
+run= True
+a=GUI()#creates the screen by calling on the constructer
+clock=time.Clock#maintains frame rate
+while run== True:#game loop
+	b=a.check_W(ai_hand,player_hand)
+	c=a.determinegamestate(2)
+	d=a.drawcard()
+	e=print(a.gethand())
+	display.flip()#shows user the screen 
+	
+	for event in event.get(0):
+		if event.type==QUIT:
+			run= False#sets condition to close the window
